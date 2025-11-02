@@ -2,13 +2,13 @@
 
 This document provides a comprehensive overview of the Apache DolphinScheduler project directory structure and explains what each component contains.
 
-## Overview
+## 1. Overview
 
 Apache DolphinScheduler is a distributed, easy-to-expand visual DAG workflow scheduling system. The project follows a modular, plugin-based architecture that allows for high extensibility and customization.
 
-## Core Server Components
+## 2. Core Server Components
 
-### `dolphinscheduler-master`
+### 2.1 `dolphinscheduler-master`
 The master server implementation that manages workflow execution, task scheduling, and coordination. The master handles:
 - Workflow definition management
 - Task dependency resolution
@@ -16,14 +16,14 @@ The master server implementation that manages workflow execution, task schedulin
 - DAG execution orchestration
 - High availability coordination
 
-### `dolphinscheduler-worker`
+### 2.2 `dolphinscheduler-worker`
 The worker server implementation that executes tasks assigned by the master. Workers handle:
 - Actual task execution (Shell, SQL, Spark, etc.)
 - Task status reporting
 - Resource management
 - Log collection and reporting
 
-### `dolphinscheduler-api`
+### 2.3 `dolphinscheduler-api`
 The REST API server that provides HTTP endpoints for the UI and external clients. Handles:
 - User authentication and authorization
 - Project management
@@ -31,7 +31,7 @@ The REST API server that provides HTTP endpoints for the UI and external clients
 - Monitoring and metrics endpoints
 - System administration APIs
 
-### `dolphinscheduler-ui`
+### 2.4 `dolphinscheduler-ui`
 Frontend web interface built with Vue.js/Vite. Provides the user dashboard for:
 - Creating and managing workflows
 - Monitoring execution status
@@ -39,9 +39,9 @@ Frontend web interface built with Vue.js/Vite. Provides the user dashboard for:
 - System administration
 - User and tenant management
 
-## Plugin Architecture
+## 3. Plugin Architecture
 
-### `dolphinscheduler-task-plugin`
+### 3.1 `dolphinscheduler-task-plugin`
 Contains 30+ task type implementations organized by category:
 
 **Data Processing:**
@@ -69,7 +69,7 @@ Contains 30+ task type implementations organized by category:
 - AWS, Azure, Google Cloud
 - Alibaba Cloud, Tencent Cloud
 
-### `dolphinscheduler-datasource-plugin`
+### 3.2 `dolphinscheduler-datasource-plugin`
 Database connection plugins for 25+ data sources:
 
 **Relational Databases:**
@@ -92,7 +92,7 @@ Database connection plugins for 25+ data sources:
 - Redis, Elasticsearch
 - Phoenix, HBase
 
-### `dolphinscheduler-storage-plugin`
+### 3.3 `dolphinscheduler-storage-plugin`
 Storage backend plugins for different file systems:
 - **HDFS**: Hadoop Distributed File System
 - **S3**: Amazon Simple Storage Service
@@ -102,59 +102,59 @@ Storage backend plugins for different file systems:
 - **COS**: Tencent Cloud Object Storage
 - **OBS**: Huawei Cloud Object Storage Service
 
-### `dolphinscheduler-registry`
+### 3.4 `dolphinscheduler-registry`
 Service discovery and coordination plugins:
 - **Zookeeper**: Default coordination service
 - **Etcd**: Distributed key-value store
 - **MySQL/JDBC**: Database-based registry
 - Handles master/worker node discovery, load balancing, and distributed locking
 
-### `dolphinscheduler-dao-plugin`
+### 3.5 `dolphinscheduler-dao-plugin`
 Database access layer plugins:
 - **MySQL**: MySQL/MariaDB support
 - **PostgreSQL**: PostgreSQL support
 - **H2**: In-memory database for testing
 - Provides database abstraction for metadata storage
 
-## Supporting Components
+## 4. Supporting Components
 
-### `dolphinscheduler-alert`
+### 4.1 `dolphinscheduler-alert`
 Alert and notification system for:
 - Workflow failure notifications
 - Task status updates
 - Custom alert rules
 - Multiple notification channels (Email, Slack, DingTalk, etc.)
 
-### `dolphinscheduler-service`
+### 4.2 `dolphinscheduler-service`
 Core business logic services shared across components:
 - Workflow definition services
 - Task execution services
 - User management services
 - Project management services
 
-### `dolphinscheduler-common`
+### 4.3 `dolphinscheduler-common`
 Shared utilities, constants, and common code:
 - Enumerations and constants
 - Utility classes
 - Common data structures
 - Configuration management
 
-### `dolphinscheduler-spi`
+### 4.4 `dolphinscheduler-spi`
 Service Provider Interfaces defining plugin contracts:
 - Task plugin interfaces
 - DataSource plugin interfaces
 - Storage plugin interfaces
 - Registry plugin interfaces
 
-### `dolphinscheduler-bom`
+### 4.5 `dolphinscheduler-bom`
 Bill of Materials for Maven dependency management:
 - Centralized version management
 - Dependency consistency across modules
 - Build configuration
 
-## Development & Operations
+## 5. Development & Operations
 
-### `deploy`
+### 5.1 `deploy`
 Deployment configurations and scripts:
 
 **Docker:**
@@ -172,14 +172,14 @@ Deployment configurations and scripts:
 - Cloud deployment automation
 - Environment provisioning
 
-### `script`
+### 5.2 `script`
 Shell scripts for system management:
 - `dolphinscheduler-daemon.sh`: Service management script
 - `install-plugins.sh`: Plugin installation utility
 - Environment configuration files
 - Startup and shutdown scripts
 
-### `docs`
+### 5.3 `docs`
 Project documentation and guides:
 - User guides
 - Developer documentation
@@ -187,142 +187,142 @@ Project documentation and guides:
 - Deployment guides
 - Architecture documentation
 
-### `tools`
+### 5.4 `tools`
 Development tools and utilities:
 - Build tools
 - Testing utilities
 - Code generation tools
 - Migration scripts
 
-### `config`
+### 5.5 `config`
 Configuration templates and examples:
 - Application properties
 - Database configurations
 - Logging configurations
 - Security settings
 
-### `dolphinscheduler-dist`
+### 5.6 `dolphinscheduler-dist`
 Build and packaging configuration:
 - Maven assembly configurations
 - Distribution packaging
 - Release automation
 - Version management
 
-### `dolphinscheduler-e2e`
+### 5.7 `dolphinscheduler-e2e`
 End-to-end integration tests:
 - Workflow execution tests
 - API integration tests
 - Performance tests
 - Compatibility tests
 
-### `dolphinscheduler-standalone-server`
+### 5.8 `dolphinscheduler-standalone-server`
 Standalone deployment mode:
 - All-in-one deployment
 - Embedded database
 - Simplified configuration
 - Development and testing
 
-## Specialized Modules
+## 6. Specialized Modules
 
-### `dolphinscheduler-authentication`
+### 6.1 `dolphinscheduler-authentication`
 Security and authentication mechanisms:
 - JWT token management
 - Password encryption
 - User session management
 - Integration with external auth systems
 
-### `dolphinscheduler-eventbus`
+### 6.2 `dolphinscheduler-eventbus`
 Event-driven communication system:
 - Message publishing and subscription
 - Event routing
 - Asynchronous communication
 - Event persistence
 
-### `dolphinscheduler-extract`
+### 6.3 `dolphinscheduler-extract`
 Data extraction and processing utilities:
 - ETL operations
 - Data transformation
 - Format conversion
 - Validation utilities
 
-### `dolphinscheduler-meter`
+### 6.4 `dolphinscheduler-meter`
 Metrics collection and monitoring:
 - Performance metrics
 - Resource usage monitoring
 - Custom metrics collection
 - Integration with monitoring systems
 
-### `dolphinscheduler-scheduler-plugin`
+### 6.5 `dolphinscheduler-scheduler-plugin`
 Custom scheduling algorithms and strategies:
 - Cron-based scheduling
 - Priority scheduling
 - Resource-aware scheduling
 - Custom scheduling policies
 
-### `dolphinscheduler-task-executor`
+### 6.6 `dolphinscheduler-task-executor`
 Task execution engine and runtime:
 - Task lifecycle management
 - Resource allocation
 - Execution context management
 - Error handling and recovery
 
-### `dolphinscheduler-yarn-aop`
+### 6.7 `dolphinscheduler-yarn-aop`
 Yarn integration aspects:
 - Hadoop Yarn resource management
 - Container allocation
 - Application lifecycle management
 
-### `dolphinscheduler-tools`
+### 6.8 `dolphinscheduler-tools`
 Administrative and maintenance tools:
 - Database migration tools
 - Configuration validation
 - System diagnostics
 - Performance analysis
 
-## Project Structure Files
+## 7. Project Structure Files
 
-### Root Configuration Files
+### 7.1 Root Configuration Files
 - `.asf.yaml`: Apache Software Foundation project configuration
 - `pom.xml`: Maven parent project configuration
 - `LICENSE`: Project license
 - `NOTICE`: Legal notices and attributions
 
-### Development Tools
+### 7.2 Development Tools
 - `.gitignore`: Git ignore patterns
 - `.pre-commit-config.yaml`: Pre-commit hooks configuration
 - `.licenserc.yaml`: License header configuration
 - `lombok.config`: Lombok configuration
 
-### Documentation
+### 7.3 Documentation
 - `README.md`: Project overview and getting started
 - `README_zh_CN.md`: Chinese documentation
 - `CONTRIBUTING.md`: Contribution guidelines
 
-### Media
+### 7.4 Media
 - `images/`: UI screenshots, project logos, and documentation images
 
-## Plugin Integration Architecture
+## 8. Plugin Integration Architecture
 
-### How Plugins Integrate with Master and Worker
+### 8.1 How Plugins Integrate with Master and Worker
 
 Apache DolphinScheduler uses a sophisticated plugin integration mechanism that enables seamless communication between the master, worker, and various plugin implementations.
 
-#### Plugin Discovery and Loading
+#### 8.1.1 Plugin Discovery and Loading
 - **SPI (Service Provider Interface)**: Plugins are discovered using Java's `ServiceLoader` mechanism through the `PrioritySPIFactory` class
 - **Auto Registration**: Plugin factories use `@AutoService` annotation for automatic registration (e.g., `ShellTaskChannelFactory`)
 - **Centralized Management**: `TaskPluginManager` serves as the central registry for all task plugins
 
-#### Master Server Integration
+#### 8.1.2 Master Server Integration
 - **Initialization**: Master server loads plugins during startup via `TaskPluginManager.loadTaskPlugin()` in `MasterServer.java:125`
 - **Logic Task Plugins**: Master handles logic plugins (condition, dependent, switch, subworkflow) through `LogicTaskPluginFactoryBuilder`
 - **Task Dispatch**: Master determines task type and dispatches to appropriate workers, but doesn't execute physical tasks directly
 
-#### Worker Server Integration
+#### 8.1.3 Worker Server Integration
 - **Initialization**: Worker server also loads plugins during startup in `WorkerServer.java:83`
 - **Physical Task Execution**: Workers handle actual task execution through `PhysicalTaskPluginFactory` and `PhysicalTaskExecutor`
 - **Plugin Factory Pattern**: `PhysicalTaskPluginFactory.createPhysicalTask()` creates task instances based on task type
 
-#### Plugin Communication Flow
+#### 8.1.4 Plugin Communication Flow
 
 ```
 Master (Logic) → Worker (Physical) → Plugin Implementation
@@ -331,7 +331,7 @@ Task Type     Task Channel Factory    Specific Task
 Determination  Plugin Selection       (Shell, SQL, etc.)
 ```
 
-#### Key Integration Points
+#### 8.1.5 Key Integration Points
 
 **Master Side:**
 - `LogicTaskPluginFactoryBuilder`: Manages logic task plugins
@@ -343,14 +343,14 @@ Determination  Plugin Selection       (Shell, SQL, etc.)
 - `PhysicalTaskExecutor`: Executes tasks through plugin channels
 - `TaskChannel`: Interface between worker and specific task implementations
 
-#### Plugin Interface Structure
+#### 8.1.6 Plugin Interface Structure
 - **TaskChannelFactory**: Creates task channels (e.g., `ShellTaskChannelFactory`)
 - **TaskChannel**: Provides task execution interface
 - **AbstractTask**: Base class for all task implementations
 
 This integration follows a clean separation where the master handles workflow logic and coordination, while workers handle actual task execution through dynamically loaded plugins. This architecture allows for easy extensibility - new task types can be added by implementing the plugin interfaces without modifying core server code.
 
-## Architecture Benefits
+## 9. Architecture Benefits
 
 This modular architecture provides several key benefits:
 
@@ -368,7 +368,7 @@ This modular architecture provides several key benefits:
 
 7. **Hot-Pluggable Architecture**: Plugins can be loaded dynamically at runtime without server restart
 
-## Getting Started
+## 10. Getting Started
 
 To explore the codebase:
 
