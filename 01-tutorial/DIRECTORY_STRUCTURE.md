@@ -301,6 +301,55 @@ Administrative and maintenance tools:
 ### Media
 - `images/`: UI screenshots, project logos, and documentation images
 
+## Plugin Integration Architecture
+
+### How Plugins Integrate with Master and Worker
+
+Apache DolphinScheduler uses a sophisticated plugin integration mechanism that enables seamless communication between the master, worker, and various plugin implementations.
+
+#### Plugin Discovery and Loading
+- **SPI (Service Provider Interface)**: Plugins are discovered using Java's `ServiceLoader` mechanism through the `PrioritySPIFactory` class
+- **Auto Registration**: Plugin factories use `@AutoService` annotation for automatic registration (e.g., `ShellTaskChannelFactory`)
+- **Centralized Management**: `TaskPluginManager` serves as the central registry for all task plugins
+
+#### Master Server Integration
+- **Initialization**: Master server loads plugins during startup via `TaskPluginManager.loadTaskPlugin()` in `MasterServer.java:125`
+- **Logic Task Plugins**: Master handles logic plugins (condition, dependent, switch, subworkflow) through `LogicTaskPluginFactoryBuilder`
+- **Task Dispatch**: Master determines task type and dispatches to appropriate workers, but doesn't execute physical tasks directly
+
+#### Worker Server Integration
+- **Initialization**: Worker server also loads plugins during startup in `WorkerServer.java:83`
+- **Physical Task Execution**: Workers handle actual task execution through `PhysicalTaskPluginFactory` and `PhysicalTaskExecutor`
+- **Plugin Factory Pattern**: `PhysicalTaskPluginFactory.createPhysicalTask()` creates task instances based on task type
+
+#### Plugin Communication Flow
+
+```
+Master (Logic) → Worker (Physical) → Plugin Implementation
+     ↓              ↓                    ↓
+Task Type     Task Channel Factory    Specific Task
+Determination  Plugin Selection       (Shell, SQL, etc.)
+```
+
+#### Key Integration Points
+
+**Master Side:**
+- `LogicTaskPluginFactoryBuilder`: Manages logic task plugins
+- Task type validation and routing
+- Workflow orchestration
+
+**Worker Side:**
+- `PhysicalTaskPluginFactory`: Creates task instances
+- `PhysicalTaskExecutor`: Executes tasks through plugin channels
+- `TaskChannel`: Interface between worker and specific task implementations
+
+#### Plugin Interface Structure
+- **TaskChannelFactory**: Creates task channels (e.g., `ShellTaskChannelFactory`)
+- **TaskChannel**: Provides task execution interface
+- **AbstractTask**: Base class for all task implementations
+
+This integration follows a clean separation where the master handles workflow logic and coordination, while workers handle actual task execution through dynamically loaded plugins. This architecture allows for easy extensibility - new task types can be added by implementing the plugin interfaces without modifying core server code.
+
 ## Architecture Benefits
 
 This modular architecture provides several key benefits:
@@ -316,6 +365,8 @@ This modular architecture provides several key benefits:
 5. **Customization**: Rich plugin ecosystem supports various enterprise requirements
 
 6. **Compatibility**: Multi-database, multi-storage, and multi-cloud support for diverse environments
+
+7. **Hot-Pluggable Architecture**: Plugins can be loaded dynamically at runtime without server restart
 
 ## Getting Started
 
